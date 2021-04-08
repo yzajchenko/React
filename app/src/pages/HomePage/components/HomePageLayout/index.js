@@ -1,32 +1,14 @@
-import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-import UserCard from "../UserCard";
+import Routes from "../../../../routes/routesNames";
+import NextPage from "../../../../comonComponents/NextPage";
 
 const HomePageLayout = ({ name, age }) => {
   return (
-    <>
-      <div>
-        <UserCard name={name} age={age} />
-      </div>
-      <div>
-        <UserCard name={name} age={age} />
-      </div>
-      <div>
-        <UserCard name={name} age={age} />
-      </div>
-      <div>
-        <UserCard name={name} age={age} />
-      </div>
-    </>
+    <Link to={Routes.COUNTER_PAGE}>
+      <NextPage page="Counter page" />
+    </Link>
   );
-};
-
-HomePageLayout.defaultProps = {
-  name: "Some user"
-};
-
-HomePageLayout.propTypes = {
-  name: PropTypes.string
 };
 
 export default HomePageLayout;
