@@ -12,7 +12,7 @@ class CounterPageContainer extends Component {
     };
   }
 
-  callback = () => {
+  setTypeParity = () => {
     if (this.state.countValue % 2 === 0) {
       this.setState({
         parityType: "even"
@@ -27,37 +27,23 @@ class CounterPageContainer extends Component {
   handleDecrement = () => {
     const { countValue } = this.state;
     if (countValue > 0) {
-      this.setState(
-        state => {
-          return { ...this.state, countValue: state.countValue - 1 };
-        },
-        () => {
-          this.callback();
-        }
-      );
+      this.setState({ ...this.state, countValue: countValue - 1 }, () => {
+        this.setTypeParity();
+      });
     }
   };
 
   handleIncrement = () => {
-    this.setState(
-      state => {
-        return { ...this.state, countValue: state.countValue + 1 };
-      },
-      () => {
-        this.callback();
-      }
-    );
+    const { countValue } = this.state;
+    this.setState({ ...this.state, countValue: countValue + 1 }, () => {
+      this.setTypeParity();
+    });
   };
 
   handleReset = () => {
-    this.setState(
-      state => {
-        return { ...this.state, countValue: 0 };
-      },
-      () => {
-        this.callback();
-      }
-    );
+    this.setState({ ...this.state, countValue: 0 }, () => {
+      this.setTypeParity();
+    });
   };
 
   render() {

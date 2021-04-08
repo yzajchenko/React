@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import Routes from "../../../../routes/routesNames";
 import NextPage from "../../../../comonComponents/NextPage";
+
 import "./styles.css";
 
 const Counter = ({
@@ -13,7 +14,7 @@ const Counter = ({
   handleReset,
   parityType
 }) => {
-  let typeCount =
+  let countType =
     parityType === "even" ? "Введено четное число" : "Введено нечетное число";
   return (
     <>
@@ -22,7 +23,7 @@ const Counter = ({
       </Link>
       <div className={"count " + parityType}>
         <div className="count__value count__value-number">{countValue}</div>
-        <div className="count__value">{typeCount}</div>
+        <div className="count__value">{countType}</div>
         <div className="count__button">
           <button onClick={handleDecrement}>-</button>
           <button onClick={handleReset}>Reset</button>
