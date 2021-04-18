@@ -1,13 +1,19 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 import CounterPageLayout from "../components/CounterPageLayout";
 
 const CounterPageContainer = () => {
   const [countersState, setCounterState] = useState([]);
-  const [numberCountersState, setNumberCounterState] = useState({
-    number: 0,
-    sumCounterValue: 0
-  });
+
+  const number = useMemo(() => {
+    return countersState.length;
+  }, [countersState]);
+
+  const sumCounterValue = useMemo(() => {
+    return countersState.reduce((sum, counter) => {
+      return sum + counter.countValue;
+    }, 0);
+  }, [countersState]);
 
   const handleDecrement = useCallback(
     index => {
@@ -49,14 +55,6 @@ const CounterPageContainer = () => {
     });
     setCounterState(countersCopy);
   };
-
-  useEffect(() => {
-    const number = countersState.length;
-    const sumCounterValue = countersState.reduce((sum, counter) => {
-      return sum + counter.countValue;
-    }, 0);
-    setNumberCounterState({ ...numberCountersState, number, sumCounterValue });
-  }, [countersState]);
 
   const handleRemove = useCallback(
     index => {
@@ -103,8 +101,8 @@ const CounterPageContainer = () => {
       handleAddCounter={handleAddCounter}
       handleRemoveCounters={handleRemoveCounters}
       handleRemove={index => handleRemove(index)}
-      numberCounter={numberCountersState.number}
-      sumCounterValue={numberCountersState.sumCounterValue}
+      numberCounter={number}
+      sumCounterValue={sumCounterValue}
     />
   );
 };
