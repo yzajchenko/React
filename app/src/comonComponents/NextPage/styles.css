@@ -1,0 +1,15 @@
+button {
+  background-color: transparent;
+  padding: 10px;
+  border-radius: 15px;
+  border: 1px solid green;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  background-color: green;
+  color: #ffffff;
+}

@@ -1,0 +1,14 @@
+import { Link } from "react-router-dom";
+
+import Routes from "../../../../routes/routesNames";
+import NextPage from "../../../../comonComponents/NextPage";
+
+const HomePageLayout = ({ name, age }) => {
+  return (
+    <Link to={Routes.COUNTER_PAGE}>
+      <NextPage page="Counter page" />
+    </Link>
+  );
+};
+
+export default HomePageLayout;
