@@ -4,31 +4,46 @@ import PropTypes from "prop-types";
 
 import Routes from "../../../../routes/routesNames";
 import NextPage from "../../../../comonComponents/NextPage";
+import Counter from "../Counter";
 
 import "./styles.css";
 
-const Counter = ({
-  countValue,
+const CounterPageLayout = ({
+  countersState,
   handleIncrement,
   handleDecrement,
   handleReset,
-  parityType
+  handleAddCounter,
+  handleRemove,
+  handleRemoveCounters,
+  numberCounter,
+  sumCounterValue
 }) => {
-  let countType =
-    parityType === "even" ? "Введено четное число" : "Введено нечетное число";
   return (
     <>
       <Link to={Routes.HOME_PAGE}>
         <NextPage page="Home page" />
       </Link>
-      <div className={"count " + parityType}>
-        <div className="count__value count__value-number">{countValue}</div>
-        <div className="count__value">{countType}</div>
-        <div className="count__button">
-          <button onClick={handleDecrement}>-</button>
-          <button onClick={handleReset}>Reset</button>
-          <button onClick={handleIncrement}>+</button>
-        </div>
+      <div className="btn">
+        <button onClick={handleAddCounter}>Add Counter</button>
+        <button onClick={handleRemoveCounters}>Reset</button>
+      </div>
+      <div className="information-counters">
+        <div>Number of counters on the screen :{numberCounter}</div>
+        <div>The sum of the values of all counters :{sumCounterValue}</div>
+      </div>
+      <div className="counter-container">
+        {countersState.map((counter, index) => (
+          <Counter
+            key={index}
+            countValue={counter.countValue}
+            parityType={counter.parityType}
+            handleDecrement={() => handleDecrement(index)}
+            handleIncrement={() => handleIncrement(index)}
+            handleReset={() => handleReset(index)}
+            handleRemove={() => handleRemove(index)}
+          />
+        ))}
       </div>
     </>
   );
@@ -42,4 +57,4 @@ Counter.propTypes = {
   parityType: PropTypes.string.isRequired
 };
 
-export default Counter;
+export default React.memo(CounterPageLayout);
