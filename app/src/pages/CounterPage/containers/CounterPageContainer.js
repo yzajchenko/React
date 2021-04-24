@@ -1,10 +1,21 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import CounterPageLayout from "../components/CounterPageLayout";
+import {
+  CREATE_COUNTER,
+  DECREMENT_COUNTER,
+  INCREMENT_COUNTER,
+  RESET_COUNTER,
+  REMOVE_COUNTER,
+  REMOVE_COUNTERS
+} from "../actions";
 
 const CounterPageContainer = () => {
-  const [countersState, setCounterState] = useState([]);
-
+  const dispatch = useDispatch();
+  const countersState = useSelector(
+    state => state.counterManagerReducer.counters
+  );
   const number = useMemo(() => {
     return countersState.length;
   }, [countersState]);
@@ -17,80 +28,42 @@ const CounterPageContainer = () => {
 
   const handleDecrement = useCallback(
     index => {
-      const counterCopy = [...countersState];
-      const findCounter = counterCopy[index];
+      const findCounter = countersState[index];
       if (findCounter.countValue > 0) {
-        findCounter.countValue = findCounter.countValue - 1;
-        setCounterState(() => counterCopy, setTypeParity());
+        dispatch(DECREMENT_COUNTER(index));
       }
     },
-    [countersState]
+    [dispatch, countersState]
   );
 
   const handleIncrement = useCallback(
     index => {
-      const countersCopy = [...countersState];
-      const findCounter = countersCopy[index];
-      findCounter.countValue = findCounter.countValue + 1;
-      setCounterState(() => countersCopy, setTypeParity());
+      dispatch(INCREMENT_COUNTER(index));
     },
-    [countersState]
+    [dispatch, countersState]
   );
 
   const handleReset = useCallback(
     index => {
-      const countersCopy = [...countersState];
-      const findCounter = countersCopy[index];
-      findCounter.countValue = 0;
-      setCounterState(() => countersCopy, setTypeParity());
+      dispatch(RESET_COUNTER(index));
     },
-    [countersState]
+    [dispatch, countersState]
   );
-
-  const setTypeParity = () => {
-    const countersCopy = [...countersState];
-    countersCopy.map(counter => {
-      const parityType = counter.countValue % 2 === 0 ? "even" : "odd";
-      counter.parityType = parityType;
-    });
-    setCounterState(countersCopy);
-  };
 
   const handleRemove = useCallback(
     index => {
-      const countersCopy = [...countersState];
-      countersCopy.splice(index, 1);
-      countersCopy.forEach(counter => {
-        counter.countValue =
-          counter.countValue % 2 !== 0
-            ? counter.countValue - 1
-            : counter.countValue;
-        return { ...counter };
-      });
-      setCounterState(() => countersCopy, setTypeParity());
+      dispatch(REMOVE_COUNTER(index));
     },
-    [countersState]
+    [dispatch, countersState]
   );
 
   const handleAddCounter = useCallback(() => {
-    const newCounter = { countValue: 0, parityType: "even" };
-    const countersCopy = [...countersState];
-
-    if (countersCopy.length !== 0) {
-      countersCopy.forEach(counter => {
-        counter.countValue =
-          counter.countValue % 2 === 0
-            ? counter.countValue + 1
-            : counter.countValue;
-        return { ...counter };
-      });
-    }
-    setCounterState(() => [...countersCopy, newCounter], setTypeParity());
-  }, [countersState]);
+    dispatch(CREATE_COUNTER());
+  }, []);
 
   const handleRemoveCounters = useCallback(() => {
-    setCounterState([]);
-  }, [countersState]);
+    dispatch(REMOVE_COUNTERS());
+  }, []);
 
   return (
     <CounterPageLayout
