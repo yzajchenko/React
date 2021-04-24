@@ -37,7 +37,6 @@ const CounterPageLayout = ({
           <Counter
             key={index}
             countValue={counter.countValue}
-            parityType={counter.parityType}
             handleDecrement={() => handleDecrement(index)}
             handleIncrement={() => handleIncrement(index)}
             handleReset={() => handleReset(index)}
@@ -53,8 +52,7 @@ Counter.propTypes = {
   countValue: PropTypes.number.isRequired,
   handleIncrement: PropTypes.func.isRequired,
   handleDecrement: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
-  parityType: PropTypes.string.isRequired
+  handleReset: PropTypes.func.isRequired
 };
 
 export default React.memo(CounterPageLayout);

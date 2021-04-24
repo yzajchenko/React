@@ -7,9 +7,9 @@ const Counter = ({
   handleIncrement,
   handleDecrement,
   handleReset,
-  parityType,
   handleRemove
 }) => {
+  const parityType = countValue % 2 === 0 ? "even" : "odd";
   let countType =
     parityType === "even" ? "Введено четное число" : "Введено нечетное число";
   return (
