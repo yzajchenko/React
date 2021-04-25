@@ -45,12 +45,13 @@ const TodoListManagerReducer = handleActions(
         todoList: todoListCopy
       };
     },
-
     [actions.SAVE_CHANGE_TASK]: (state, { payload }) => {
       const todoListCopy = [...state.todoList];
       const findTack = todoListCopy[payload.index];
       findTack.handleChangeDisabled = !findTack.handleChangeDisabled;
-      findTack.value = payload.value;
+      if (payload.value) {
+        findTack.value = payload.value;
+      }
       return {
         ...state,
         todoList: todoListCopy
