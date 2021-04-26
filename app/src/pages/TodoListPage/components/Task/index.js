@@ -15,18 +15,18 @@ import {
 
 import styles from "./styles";
 
-const Tack = ({
+const Task = ({
   tack,
-  handleCompleteTack,
+  handleCompleteTask,
   classes,
-  changeTackValue,
+  changeTaskValue,
   handleInputChange,
   handleChangeTask,
   handleSaveChangeTask,
   handleClickOpen,
   handleCloseChange
 }) => {
-  const { value, handleChangeDisabled, complete } = tack;
+  const { value, isOnChange, complete } = tack;
   return (
     <ListItem>
       <ListItemIcon>
@@ -35,33 +35,32 @@ const Tack = ({
           checked={complete}
           name="checked"
           color="primary"
-          onClick={handleCompleteTack}
+          onClick={handleCompleteTask}
         />
       </ListItemIcon>
+
       <Input
         className={complete ? classes.tackComplete : classes.tack}
-        value={handleChangeDisabled ? value : changeTackValue}
-        disabled={handleChangeDisabled || complete ? true : false}
+        value={isOnChange ? value : changeTaskValue}
+        disabled={isOnChange || complete ? true : false}
         inputProps={{ "aria-label": "description" }}
         onChange={event => handleInputChange(event)}
       />
+
       <Button
         className={complete ? classes.done : ""}
         disabled={complete ? true : false}
         onClick={() =>
-          handleChangeDisabled ? handleChangeTask() : handleSaveChangeTask()
+          isOnChange ? handleChangeTask() : handleSaveChangeTask()
         }
         variant="contained"
         color="primary"
         startIcon={
-          handleChangeDisabled ? (
-            <BorderColorIcon />
-          ) : (
-            <CheckCircleOutlineIcon />
-          )
+          isOnChange ? <BorderColorIcon /> : <CheckCircleOutlineIcon />
         }
       ></Button>
-      {handleChangeDisabled ? (
+
+      {isOnChange ? (
         <Button
           variant="contained"
           color="primary"
@@ -80,4 +79,4 @@ const Tack = ({
   );
 };
 
-export default withStyles(styles)(React.memo(Tack));
+export default withStyles(styles)(React.memo(Task));

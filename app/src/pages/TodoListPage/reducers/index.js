@@ -10,8 +10,9 @@ const TodoListManagerReducer = handleActions(
   {
     [actions.CREATE_TASK]: (state, { payload }) => {
       const newTask = {
+        id: state.todoList.length,
         value: payload,
-        handleChangeDisabled: true,
+        isOnChange: true,
         complete: false
       };
       return {
@@ -21,16 +22,16 @@ const TodoListManagerReducer = handleActions(
     },
     [actions.REMOVE_TASK]: (state, { payload }) => {
       const todoListCopy = [...state.todoList];
-      todoListCopy.splice(payload, 1);
+      const todoListNew = todoListCopy.filter(task => task.id !== payload);
       return {
         ...state,
-        todoList: todoListCopy
+        todoList: todoListNew
       };
     },
     [actions.CHANGE_TASK]: (state, { payload }) => {
       const todoListCopy = [...state.todoList];
-      const findTack = todoListCopy[payload];
-      findTack.handleChangeDisabled = !findTack.handleChangeDisabled;
+      const findTack = todoListCopy.filter(task => task.id === payload);
+      findTack.forEach(task => (task.isOnChange = !task.isOnChange));
       return {
         ...state,
         todoList: todoListCopy
@@ -38,8 +39,8 @@ const TodoListManagerReducer = handleActions(
     },
     [actions.COMPLETE_TASK]: (state, { payload }) => {
       const todoListCopy = [...state.todoList];
-      const findTack = todoListCopy[payload];
-      findTack.complete = !findTack.complete;
+      const findTack = todoListCopy.filter(task => task.id === payload);
+      findTack.forEach(task => (task.complete = !task.complete));
       return {
         ...state,
         todoList: todoListCopy
@@ -47,11 +48,13 @@ const TodoListManagerReducer = handleActions(
     },
     [actions.SAVE_CHANGE_TASK]: (state, { payload }) => {
       const todoListCopy = [...state.todoList];
-      const findTack = todoListCopy[payload.index];
-      findTack.handleChangeDisabled = !findTack.handleChangeDisabled;
-      if (payload.value) {
-        findTack.value = payload.value;
-      }
+      const findTack = todoListCopy.filter(task => task.id === payload.id);
+      findTack.forEach(task => {
+        task.isOnChange = !task.isOnChange;
+        if (payload.value) {
+          task.value = payload.value;
+        }
+      });
       return {
         ...state,
         todoList: todoListCopy

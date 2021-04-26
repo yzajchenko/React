@@ -18,7 +18,7 @@ const TodoListPageContainer = () => {
   );
 
   const [inputValue, setInputValue] = useState("");
-  const [changeTackValue, setChangeTack] = useState("");
+  const [changeTaskValue, setChangeTask] = useState("");
   const [openModal, setOpen] = useState({ open: false });
 
   const handleClickOpen = useCallback(
@@ -52,45 +52,45 @@ const TodoListPageContainer = () => {
   );
 
   const handleRemoveTask = useCallback(
-    index => {
-      dispatch(REMOVE_TASK(index));
+    id => {
+      dispatch(REMOVE_TASK(id));
     },
     [dispatch]
   );
 
   const handleChangeTask = useCallback(
-    (index, value) => {
-      setChangeTack(value);
-      dispatch(CHANGE_TASK(index));
+    (id, value) => {
+      setChangeTask(value);
+      dispatch(CHANGE_TASK(id));
     },
     [dispatch]
   );
 
   const handleSaveChangeTask = useCallback(
-    (index, value) => {
-      dispatch(SAVE_CHANGE_TASK({ index, value }));
+    (id, value) => {
+      dispatch(SAVE_CHANGE_TASK({ id, value }));
     },
     [dispatch]
   );
 
   const handleInputChange = useCallback(
     event => {
-      setChangeTack(event.target.value);
+      setChangeTask(event.target.value);
     },
     [dispatch]
   );
 
-  const handleCompleteTack = useCallback(
-    index => {
-      dispatch(COMPLETE_TASK(index));
+  const handleCompleteTask = useCallback(
+    id => {
+      dispatch(COMPLETE_TASK(id));
     },
     [dispatch]
   );
 
   const handleCloseChange = useCallback(
-    (index, value) => {
-      setChangeTack(value);
-      dispatch(CHANGE_TASK(index));
+    (id, value) => {
+      setChangeTask(value);
+      dispatch(CHANGE_TASK(id));
     },
     [dispatch]
   );
@@ -101,18 +101,16 @@ const TodoListPageContainer = () => {
       handleCreateTask={handleCreateTask}
       handleInput={handleInput}
       inputValue={inputValue}
-      handleRemoveTask={index => handleRemoveTask(index)}
-      handleChangeTask={(index, value) => handleChangeTask(index, value)}
-      handleSaveChangeTask={(index, value) =>
-        handleSaveChangeTask(index, value)
-      }
+      handleRemoveTask={id => handleRemoveTask(id)}
+      handleChangeTask={(id, value) => handleChangeTask(id, value)}
+      handleSaveChangeTask={(id, value) => handleSaveChangeTask(id, value)}
       handleInputChange={handleInputChange}
-      changeTackValue={changeTackValue}
-      handleCompleteTack={index => handleCompleteTack(index)}
+      changeTaskValue={changeTaskValue}
+      handleCompleteTask={id => handleCompleteTask(id)}
       handleClose={handleClose}
-      handleClickOpen={index => handleClickOpen(index)}
+      handleClickOpen={id => handleClickOpen(id)}
       openModal={openModal}
-      handleCloseChange={index => handleCloseChange(index)}
+      handleCloseChange={id => handleCloseChange(id)}
     />
   );
 };

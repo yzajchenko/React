@@ -16,7 +16,7 @@ import {
 
 import Routes from "../../../../routes/routesNames";
 import NextPage from "../../../../comonComponents/NextPage";
-import Tack from "../Tack";
+import Task from "../Task";
 
 import styles from "./styles";
 
@@ -29,14 +29,16 @@ const TodoListPageLayout = ({
   handleChangeTask,
   handleSaveChangeTask,
   handleInputChange,
-  handleCompleteTack,
-  changeTackValue,
+  handleCompleteTask,
+  changeTaskValue,
   classes,
   handleClickOpen,
   handleClose,
   openModal,
   handleCloseChange
 }) => {
+  const inOnComplete = todoListState.filter(({ complete }) => complete);
+  const inComplete = todoListState.filter(({ complete }) => !complete);
   return (
     <>
       <Link to={Routes.HOME_PAGE}>
@@ -47,29 +49,31 @@ const TodoListPageLayout = ({
           <TextField
             value={inputValue}
             onChange={event => handleInput(event)}
-            placeholder="New Tack"
+            placeholder="New Task"
           />
           <Input type="submit" value="Add Task" />
         </form>
         <List>
-          {todoListState.map((tack, index) => {
+          {[...inComplete, ...inOnComplete].map(task => {
+            const { id, value } = task;
             return (
-              <Tack
-                key={index}
-                tack={tack}
-                handleCompleteTack={() => handleCompleteTack(index)}
-                changeTackValue={changeTackValue}
+              <Task
+                key={id}
+                tack={task}
+                handleCompleteTask={() => handleCompleteTask(id)}
+                changeTaskValue={changeTaskValue}
                 handleInputChange={event => handleInputChange(event)}
-                handleChangeTask={() => handleChangeTask(index, tack.value)}
+                handleChangeTask={() => handleChangeTask(id, value)}
                 handleSaveChangeTask={() =>
-                  handleSaveChangeTask(index, changeTackValue)
+                  handleSaveChangeTask(id, changeTaskValue)
                 }
-                handleClickOpen={() => handleClickOpen(index)}
-                handleCloseChange={() => handleCloseChange(index, tack.value)}
+                handleClickOpen={() => handleClickOpen(id)}
+                handleCloseChange={() => handleCloseChange(id, value)}
               />
             );
           })}
         </List>
+
         <Dialog
           open={openModal.open}
           onClose={handleClose}
@@ -108,7 +112,7 @@ TodoListPageLayout.propTypes = {
   handleChangeTask: PropTypes.func.isRequired,
   handleSaveChangeTask: PropTypes.func.isRequired,
   handleInputChange: PropTypes.func.isRequired,
-  handleCompleteTack: PropTypes.func.isRequired,
+  handleCompleteTask: PropTypes.func.isRequired,
   handleClickOpen: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   openModal: PropTypes.object.isRequired,
