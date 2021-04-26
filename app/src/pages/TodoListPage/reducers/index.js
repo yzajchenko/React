@@ -6,11 +6,14 @@ const initialState = {
   todoList: []
 };
 
+let id = 1;
+
 const TodoListManagerReducer = handleActions(
   {
     [actions.CREATE_TASK]: (state, { payload }) => {
+      let index = id++;
       const newTask = {
-        id: state.todoList.length,
+        id: index,
         value: payload,
         isOnChange: true,
         complete: false
