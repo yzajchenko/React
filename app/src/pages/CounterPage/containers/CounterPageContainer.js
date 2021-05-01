@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import CounterPageLayout from "../components/CounterPageLayout";
@@ -59,7 +59,7 @@ const CounterPageContainer = () => {
 
   const handleAddCounter = useCallback(() => {
     dispatch(CREATE_COUNTER());
-  }, []);
+  }, [dispatch]);
 
   const handleRemoveCounters = useCallback(() => {
     dispatch(REMOVE_COUNTERS());

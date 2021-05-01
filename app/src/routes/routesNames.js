@@ -1,4 +1,5 @@
 export default {
   HOME_PAGE: "/",
-  COUNTER_PAGE: "/counter"
+  COUNTER_PAGE: "/counter",
+  TODO_LIST_PAGE: "/todo-list"
 };
